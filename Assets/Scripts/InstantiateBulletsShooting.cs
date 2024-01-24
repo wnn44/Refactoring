@@ -1,32 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-[RequireComponent(typeof(Rigidbody))]
 
 public class InstantiateBulletsShooting : MonoBehaviour
 {
-    [SerializeField] private float _number;
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private float _speed;
     [SerializeField] private float _timeWaitShooting;
-
-    public Transform ObjectToShoot;
+    [SerializeField] private Bullet _prefabBullet;
+    [SerializeField] private Target _objectToShoot;
 
     void Start()
     {
-        StartCoroutine(_shootingWorker());
+        StartCoroutine(WorkerShooting());
     }
 
-    IEnumerator _shootingWorker()
+    IEnumerator WorkerShooting()
     {
-        bool isWork = enabled;
+        bool isWork = true;
+
         while (isWork)
         {
-            var _vector3direction = (ObjectToShoot.position - transform.position).normalized;
-            var NewBullet = Instantiate(_prefab, transform.position + _vector3direction, Quaternion.identity);
+            Vector3 direction = (_objectToShoot.transform.position - transform.position).normalized;
+            Bullet newBullet = Instantiate(_prefabBullet, transform.position, Quaternion.identity);
 
-            NewBullet.GetComponent<Rigidbody>().transform.up = _vector3direction;
-            NewBullet.GetComponent<Rigidbody>().velocity = _vector3direction * _number;
+            Debug.Log(direction);
+
+            newBullet.GetComponent<Rigidbody>().transform.up = direction;
+            newBullet.GetComponent<Rigidbody>().velocity = direction * _speed;
 
             yield return new WaitForSeconds(_timeWaitShooting);
         }
