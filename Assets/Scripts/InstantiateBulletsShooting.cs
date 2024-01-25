@@ -22,8 +22,6 @@ public class InstantiateBulletsShooting : MonoBehaviour
             Vector3 direction = (_objectToShoot.transform.position - transform.position).normalized;
             Bullet newBullet = Instantiate(_prefabBullet, transform.position, Quaternion.identity);
 
-            Debug.Log(direction);
-
             newBullet.GetComponent<Rigidbody>().transform.up = direction;
             newBullet.GetComponent<Rigidbody>().velocity = direction * _speed;
 
