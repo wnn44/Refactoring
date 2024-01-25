@@ -10,12 +10,15 @@ public class InstantiateBulletsShooting : MonoBehaviour
 
     void Start()
     {
+
         StartCoroutine(WorkerShooting());
     }
 
     IEnumerator WorkerShooting()
     {
-        bool isWork = true;
+        WaitForSeconds pause = new WaitForSeconds(_timeWaitShooting);
+
+        bool isWork = true;        
 
         while (isWork)
         {
@@ -25,7 +28,7 @@ public class InstantiateBulletsShooting : MonoBehaviour
             newBullet.GetComponent<Rigidbody>().transform.up = direction;
             newBullet.GetComponent<Rigidbody>().velocity = direction * _speed;
 
-            yield return new WaitForSeconds(_timeWaitShooting);
+            yield return pause;
         }
     }
 }
